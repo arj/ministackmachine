@@ -6,18 +6,24 @@
 
 class interpreter {
 public:
-    interpreter(const std::vector<instruction>& instructions);
-
+    interpreter(const std::vector<uint16_t>& instructions);
     void set_command_line_arguments(const std::vector<uint16_t>& args);
+    void set_stack(const std::vector<uint16_t>& stack);
+
+    struct configs {
+        uint16_t pc;
+        uint16_t sp;
+        uint16_t bp;
+    };
+
+    configs registers() const;
+
+    const std::vector<uint16_t>& stack() const;
 
     void run();
-
     void step();
-
     bool is_stopped() const;
-
     void set_tracing(bool tracing);
-
     std::string program() const;
 
 private:
@@ -26,10 +32,9 @@ private:
     uint16_t pc;
     uint16_t sp;
     uint16_t bp;
-    std::vector<instruction> instructions;
-    std::vector<uint16_t> stack;
+    std::vector<uint16_t> code;
+    std::vector<uint16_t> m_stack;
     std::vector<uint16_t> cmd_args;
 };
-
 
 #endif //STACKMACHINE_INTERPRETER_H

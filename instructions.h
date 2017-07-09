@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <vector>
 
-enum class mnemonic
+enum mnemonic : uint16_t
 {
     CONST = 0x00,
     ADD = 0x01,
@@ -35,6 +35,45 @@ enum class mnemonic
     LDARGS = 0x19,
     STOP = 0x20,
     NOOP = 0x21
+};
+
+std::vector<uint16_t> mk_const(uint16_t v);
+uint16_t mk_add();
+uint16_t mk_sub();
+uint16_t mk_mul();
+uint16_t mk_div();
+uint16_t mk_mod();
+uint16_t mk_eq();
+uint16_t mk_lt();
+uint16_t mk_not();
+uint16_t mk_dup();
+uint16_t mk_swap();
+uint16_t mk_ldi();
+uint16_t mk_sti();
+uint16_t mk_getbp();
+uint16_t mk_getsp();
+std::vector<uint16_t> mk_incsp(uint16_t count);
+std::vector<uint16_t> mk_decsp(uint16_t count);
+std::vector<uint16_t> mk_goto(uint16_t address);
+std::vector<uint16_t> mk_ifzero(uint16_t address);
+std::vector<uint16_t> mk_ifnzero(uint16_t address);
+std::vector<uint16_t> mk_call(uint16_t variable_count, uint16_t address);
+std::vector<uint16_t> mk_tcall(uint16_t variable_count, uint16_t old_variable_count, uint16_t address);
+std::vector<uint16_t> mk_ret(uint16_t variable_count);
+uint16_t mk_printi();
+uint16_t mk_printc();
+uint16_t mk_ldargs();
+uint16_t mk_stop();
+uint16_t mk_noop();
+
+class program {
+public:
+    void append(uint16_t code);
+    void append(const std::vector<uint16_t>& code);
+
+    const std::vector<uint16_t>& code() const;
+private:
+    std::vector<uint16_t> bytes;
 };
 
 //! Get the number of arguments the mnemonic requires.
